@@ -8,7 +8,7 @@ const SchemaCache = require('./lib/schema-cache');
 const decodeFunction = require('./lib/decode-function');
 const encodeFunction = require('./lib/encode-function');
 
-function schemas(registryUrl, avscOptions) {
+function schemas(registryUrl) {
   const parsed = url.parse(registryUrl);
   const registry = {
     cache: new SchemaCache(),
@@ -21,13 +21,11 @@ function schemas(registryUrl, avscOptions) {
   if(parsed.auth) {
     registry.auth = parsed.auth;
   }
-
-  const opts = avscOptions || {}
   
-  const decode = decodeFunction(registry, opts)
-  const encodeKey = encodeFunction.bySchema('key', registry, opts);
-  const encodeMessage = encodeFunction.bySchema('value', registry, opts);
-  const encodeById = encodeFunction.byId(registry, opts);
+  const decode = decodeFunction(registry)
+  const encodeKey = encodeFunction.bySchema('key', registry);
+  const encodeMessage = encodeFunction.bySchema('value', registry);
+  const encodeById = encodeFunction.byId(registry);
 
   return {
     decode,
